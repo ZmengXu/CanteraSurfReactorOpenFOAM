@@ -1,0 +1,767 @@
+generator: ck2yaml
+input-files: [chem_cantera.inp, therm_cantera.dat, surf_cantera.inp]
+cantera-version: 2.5.1
+date: Mon, 08 Aug 2022 09:12:53 +0200
+
+units: { length: cm, time: s, quantity: mol, activation-energy: K }
+
+phases:
+  - name: gasAl
+    thermo: ideal-gas
+    elements: [Al, O, Ar, N]
+    species: [O, O2, N2, AR, N, AL, ALO, ALO2, AL2O, AL2O2, AL2O3, AL2O3(L)]
+    # species:
+    #   - species: [AL2O3, AL2O3(L), N]
+    #   - nasa_gas.yaml/species: [O2, N2, AL, ALO, ALO2, AL2O, AL2O2, O, Ar] #AL2O3(L)
+    kinetics: gas
+    reactions:
+      - gas-reactions: declared-species
+    state: { T: 2500.0, P: 1 atm, X: "O2:0.21, AR:0.79" }
+
+  # - name: bulkAl
+  #   thermo: ideal-condensed
+  #   elements: [Al, O]
+  #   species: [AL(B), AL2O3(B)]
+  #   state: { T: 2500.0, P: 1 atm, X: "AL(B):0.5, AL2O3(B):0.5" }
+
+  - name: bulkAl
+    thermo: fixed-stoichiometry
+    elements: [Al]
+    species: [AL(B)]
+    state: { T: 2500.0, P: 1 atm }
+
+  - name: bulkAl2O3
+    thermo: fixed-stoichiometry
+    elements: [Al, O]
+    species: [AL2O3(B)]
+    state: { T: 2500.0, P: 1 atm }
+
+  - name: surfaceAl
+    thermo: ideal-surface
+    elements: [Al, O, Ar, N]
+    species: [AL(L), ALO(S), OALO(S), O(S), AL2O2(S), AL2O(S), N(S)]
+    site-density: 4.42e-09
+    kinetics: surface
+    reactions:
+      - surface-reactions: declared-species
+    state: { T: 2500.0, P: 1 atm }
+
+species:
+  - name: O
+    composition: { O: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 5000.0]
+      data:
+        - [
+            2.946428,
+            -1.6381665e-03,
+            2.421031e-06,
+            -1.6028431e-09,
+            3.890696e-13,
+            2.914764e+04,
+            2.963995,
+          ]
+        - [
+            2.542059,
+            -2.755061e-05,
+            -3.102803e-09,
+            4.551067e-12,
+            -4.368051e-16,
+            2.92308e+04,
+            4.920308,
+          ]
+      note: "120186"
+  - name: O2
+    composition: { O: 2 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 5000.0]
+      data:
+        - [
+            3.212936,
+            1.1274864e-03,
+            -5.75615e-07,
+            1.3138773e-09,
+            -8.768554e-13,
+            -1005.249,
+            6.034737,
+          ]
+        - [
+            3.697578,
+            6.135197e-04,
+            -1.258842e-07,
+            1.775281e-11,
+            -1.1364354e-15,
+            -1233.9301,
+            3.189165,
+          ]
+      note: "121386"
+  - name: N2
+    composition: { N: 2 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 5000.0]
+      data:
+        - [
+            3.298677,
+            1.4082404e-03,
+            -3.963222e-06,
+            5.641515e-09,
+            -2.444854e-12,
+            -1020.8999,
+            3.950372,
+          ]
+        - [
+            2.92664,
+            1.4879768e-03,
+            -5.68476e-07,
+            1.0097038e-10,
+            -6.753351e-15,
+            -922.7977,
+            5.980528,
+          ]
+      note: "121286"
+  - name: AR
+    composition: { Ar: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 5000.0]
+      data:
+        - [2.5, 0.0, 0.0, 0.0, 0.0, -745.375, 4.366]
+        - [2.5, 0.0, 0.0, 0.0, 0.0, -745.375, 4.366]
+      note: "120186"
+  - name: N
+    composition: { N: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 5000.0]
+      data:
+        - [
+            2.503071,
+            -2.180018e-05,
+            5.420529e-08,
+            -5.64756e-11,
+            2.099904e-14,
+            5.60989e+04,
+            4.167566,
+          ]
+        - [
+            2.450268,
+            1.0661458e-04,
+            -7.465337e-08,
+            1.879652e-11,
+            -1.0259839e-15,
+            5.611604e+04,
+            4.448758,
+          ]
+      note: "120186"
+  - name: AL
+    composition: { Al: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 600.0, 5000.0]
+      data:
+        - [
+            2.736825,
+            -5.912374e-04,
+            -4.033938e-07,
+            2.322343e-09,
+            -1.705599e-12,
+            3.886795e+04,
+            4.36388,
+          ]
+        - [
+            2.559589,
+            -1.063224e-04,
+            7.202828e-08,
+            -2.121105e-11,
+            2.289429e-15,
+            3.890214e+04,
+            5.234522,
+          ]
+      note: "62987"
+  - name: ALO
+    composition: { Al: 1, O: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 4000.0]
+      data:
+        - [
+            3.0806945,
+            1.9404492e-03,
+            1.9227539e-06,
+            -5.0987691e-09,
+            2.6203768e-12,
+            8448.1294,
+            8.0915699,
+          ]
+        - [
+            4.1683949,
+            -8.5450897e-04,
+            1.693848e-06,
+            -6.0688423e-10,
+            6.4655635e-14,
+            8222.3831,
+            2.6290484,
+          ]
+      note: "0"
+  - name: ALO2
+    composition: { Al: 1, O: 2 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 4000.0]
+      data:
+        - [
+            3.167959,
+            0.015476947,
+            -2.4118946e-05,
+            1.801035e-08,
+            -5.2391034e-12,
+            -6585.7738,
+            7.970976,
+          ]
+        - [
+            6.6611195,
+            1.0595431e-03,
+            -5.3486813e-07,
+            1.2176327e-10,
+            -1.0351178e-14,
+            -7305.1955,
+            -8.8778831,
+          ]
+      note: "0"
+  - name: AL2O
+    composition: { Al: 2, O: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 4000.0]
+      data:
+        - [
+            4.1868262,
+            0.011263231,
+            -1.7003063e-05,
+            1.2470729e-08,
+            -3.5980479e-12,
+            -1.9538168e+04,
+            4.8984589,
+          ]
+        - [
+            6.7594175,
+            9.3195408e-04,
+            -4.6929054e-07,
+            1.0664919e-10,
+            -9.0551391e-15,
+            -2.0083157e+04,
+            -7.5838702,
+          ]
+      note: "0"
+  - name: AL2O2
+    composition: { Al: 2, O: 2 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 4000.0]
+      data:
+        - [
+            5.1531611,
+            0.016305472,
+            -2.2766591e-05,
+            1.5928127e-08,
+            -4.4964869e-12,
+            -4.2502188e+04,
+            3.0809081,
+          ]
+        - [
+            8.9733892,
+            1.9108338e-03,
+            -9.600181e-07,
+            2.1798325e-10,
+            -1.8506103e-14,
+            -4.3362014e+04,
+            -15.699721,
+          ]
+      note: "0"
+  - name: AL2O3
+    composition: { Al: 2, O: 3 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 4000.0]
+      data:
+        - [
+            6.2009947,
+            0.020708957,
+            -2.7177405e-05,
+            1.8206521e-08,
+            -5.0230771e-12,
+            -6.215069e+04,
+            -0.93812822,
+          ]
+        - [
+            11.142254,
+            2.9443457e-03,
+            -1.4773152e-06,
+            3.3513999e-10,
+            -2.8433341e-14,
+            -6.3307423e+04,
+            -25.448102,
+          ]
+      note: "0"
+  - name: AL2O3(L)
+    composition: { Al: 2, O: 3 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 2327.0]
+      data:
+        - [
+            -4.9138309,
+            0.079398443,
+            -1.3237918e-04,
+            1.044675e-07,
+            -3.156633e-11,
+            -2.0262622e+05,
+            15.478073,
+          ]
+        - [
+            11.833666,
+            3.7708878e-03,
+            -1.7863191e-07,
+            -5.6008807e-10,
+            1.4076825e-13,
+            -2.0571131e+05,
+            -63.599835,
+          ]
+      note: J12/79
+  - name: AL(B)
+    composition: { Al: 1 }
+    equation-of-state:
+      model: constant-volume
+      density: 2.066 g/cm^3 #From Glorian surf.inp
+    thermo:
+      model: NASA7
+      temperature-ranges: [933.61, 1000.0, 6000.0]
+      data:
+        - [3.81862551, 0.0, 0.0, 0.0, 0.0, -94.9651808, -17.5229704]
+        - [3.81862551, 0.0, 0.0, 0.0, 0.0, -94.9651808, -17.5229704]
+      note: J3/67
+  - name: AL2O3(B)
+    composition: { Al: 2, O: 3 }
+    equation-of-state:
+      model: constant-volume
+      density: 3.9 g/cm^3
+    thermo:
+      model: NASA7
+      temperature-ranges: [300.0, 1000.0, 2327.0]
+      data:
+        - [
+            -4.9138309,
+            0.079398443,
+            -1.3237918e-04,
+            1.044675e-07,
+            -3.156633e-11,
+            -2.0262622e+05,
+            15.478073,
+          ]
+        - [
+            11.833666,
+            3.7708878e-03,
+            -1.7863191e-07,
+            -5.6008807e-10,
+            1.4076825e-13,
+            -2.0571131e+05,
+            -63.599835,
+          ]
+      note: J12/79
+  - name: AL(L)
+    composition: { Al: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [933.61, 1000.0, 5000.0]
+      data:
+        - [3.81862551, 0.0, 0.0, 0.0, 0.0, -94.9651808, -17.5229704]
+        - [3.81862551, 0.0, 0.0, 0.0, 0.0, -94.9651808, -17.5229704]
+      note: J3/67
+  - name: ALO(S)
+    composition: { Al: 1, O: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [298.15, 1000.0, 5000.0]
+      data:
+        - [
+            1.030225,
+            0.016051481,
+            -3.13113292e-05,
+            2.70432895e-08,
+            -8.34051961e-12,
+            -1.18645191e+04,
+            16.7621416,
+          ]
+        - [
+            3.13304008,
+            1.38690021e-03,
+            6.5522816e-08,
+            -1.2793232e-10,
+            1.56159681e-14,
+            -1.19724161e+04,
+            8.18060445,
+          ]
+  - name: OALO(S)
+    composition: { Al: 1, O: 2 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [298.15, 1000.0, 5000.0]
+      data:
+        - [
+            3.28073609,
+            0.0121627259,
+            -1.43245345e-05,
+            7.53738041e-09,
+            -1.42786616e-12,
+            -1.01045848e+05,
+            7.79737492,
+          ]
+        - [
+            6.44281286,
+            1.25699978e-03,
+            -5.79816622e-07,
+            1.16816104e-10,
+            -8.37031429e-15,
+            -1.01765392e+05,
+            -7.89346288,
+          ]
+  - name: O(S)
+    composition: { O: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [298.15, 1000.0, 5000.0]
+      data:
+        - [
+            2.93580437,
+            -1.57039962e-03,
+            2.28766551e-06,
+            -1.51409618e-09,
+            3.77790328e-13,
+            -6.67459696e+04,
+            3.00986433,
+          ]
+        - [
+            2.5534723,
+            -4.53453938e-05,
+            6.49525481e-09,
+            2.40993201e-12,
+            -2.67686341e-16,
+            -6.66692894e+04,
+            4.85546407,
+          ]
+  - name: AL2O2(S)
+    composition: { Al: 2, O: 2 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [298.15, 1000.0, 5000.0]
+      data:
+        - [
+            2.05534593,
+            0.01845795,
+            -1.52928896e-05,
+            3.33958502e-09,
+            7.73119385e-13,
+            -8.50927604e+04,
+            15.4881191,
+          ]
+        - [
+            7.51391121,
+            2.87404647e-03,
+            -1.29257074e-06,
+            2.56396733e-10,
+            -1.86729462e-14,
+            -8.64969914e+04,
+            -12.4088924,
+          ]
+    sites: 3.0
+  - name: AL2O(S)
+    composition: { Al: 2, O: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [298.15, 1000.0, 5000.0]
+      data:
+        - [
+            3.48108363,
+            9.28089164e-03,
+            -9.64154252e-06,
+            4.11911221e-09,
+            -4.93865488e-13,
+            -3.21959217e+04,
+            8.97532922,
+          ]
+        - [
+            6.04014638,
+            1.11717053e-03,
+            -5.04755647e-07,
+            1.00450835e-10,
+            -7.33261066e-15,
+            -3.28113608e+04,
+            -3.88880172,
+          ]
+    sites: 3.0
+  - name: N(S)
+    composition: { N: 1 }
+    thermo:
+      model: NASA7
+      temperature-ranges: [298.15, 1000.0, 5000.0]
+      data:
+        - [
+            2.46242003,
+            2.61504933e-04,
+            -6.15162249e-07,
+            5.87035118e-10,
+            -1.95374033e-13,
+            -4.65353088e+04,
+            4.33994174,
+          ]
+        - [
+            2.4465701,
+            1.14840824e-04,
+            -8.00703069e-08,
+            2.02433033e-11,
+            -1.16011652e-15,
+            -4.65216356e+04,
+            4.46892448,
+          ]
+
+surface-reactions:
+  - equation: AL + AL(L) <=> AL(B) + AL(L) # Reaction 1
+    sticking-coefficient: { A: 1.0, b: 0.0, Ea: 0.0 J/mol }
+    Motz-Wise: true
+    note: evaporation-condensation AL(Liquid)
+  - equation: O + AL(L) <=> AL(B) + O(S) # Reaction 2
+    sticking-coefficient: { A: 1.0, b: 0.0, Ea: 0.0 J/mol }
+    Motz-Wise: true
+  - equation: N + AL(L) <=> AL(B) + N(S) # Reaction 3
+    sticking-coefficient: { A: 1.0, b: 0.0, Ea: 0.0 J/mol }
+    Motz-Wise: true
+  - equation: O2 + 2 AL(L) <=> 2 O(S) + 2 AL(B) # Reaction 4
+    sticking-coefficient: { A: 5.0e-03, b: 0.0, Ea: 0.0 J/mol }
+    note: Brune et al 1993
+  - equation: N2 + 2 AL(L) <=> 2 N(S) + 2 AL(B) # Reaction 5
+    rate-constant: { A: 1.44e+22, b: 0.0, Ea: 80521.0 J/mol }
+    note: Adsorption and Langmuir-Hinshelwood (heteronuclear)
+  - equation: AL(L) + ALO <=> ALO(S) + AL(B) # Reaction 6
+    sticking-coefficient: { A: 1.0, b: 0.0, Ea: 0.0 J/mol }
+  - equation: ALO(S) + AL(L) <=> AL(L) + O(S) + AL(B) # Reaction 7
+    rate-constant: { A: 2.26e+19, b: 0.0, Ea: 11840.34 J/mol }
+    note: L-H
+  - equation: AL(L) + O <=> ALO(S) # Reaction 8
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: |-
+      ELEY RIDEAL
+      E-R
+  - equation: AL2O + 3 AL(L) <=> AL2O(S) + 3 AL(B) # Reaction 9
+    sticking-coefficient: { A: 1.0, b: 0.0, Ea: 0.0 J/mol }
+    note: ALUMINUM OXIDES SPECIES
+  - equation: ALO(S) + AL + 2 AL(L) <=> AL2O(S) + 2 AL(B) # Reaction 10
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: ALO + AL(L) + 2 AL(L) <=> AL2O(S) + 2 AL(B) # Reaction 11
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: AL(L) + ALO(S) + AL(L) <=> AL2O(S) + AL(B) # Reaction 12
+    rate-constant: { A: 2.26e+19, b: 0.0, Ea: 0.0 J/mol }
+    note: L-H
+  - equation: 2 AL(L) + O + AL(L) <=> AL2O(S) + AL(B) # Reaction 13
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: ALO2 + AL(L) <=> OALO(S) + AL(B) # Reaction 14
+    sticking-coefficient: { A: 0.75, b: 0.0, Ea: 0.0 J/mol }
+  - equation: 2 O(S) + AL + AL(B) <=> OALO(S) + AL(L) # Reaction 15
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: ALO + O(S) <=> OALO(S) # Reaction 16
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: AL2O2 + 3 AL(L) <=> AL2O2(S) + 3 AL(B) # Reaction 17
+    sticking-coefficient: { A: 0.75, b: 0.0, Ea: 0.0 J/mol }
+  - equation: ALO2 + AL(L) + 2 AL(L) <=> AL2O2(S) + 2 AL(B) # Reaction 18
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: ALO(S) + ALO + 2 AL(L) <=> AL2O2(S) + 2 AL(B) # Reaction 19
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: AL2O + O(S) + 2 AL(L) <=> AL2O2(S) + 2 AL(B) # Reaction 20
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 47093.69 J/mol }
+    note: E-R
+  - equation: AL2O(S) + O <=> AL2O2(S) # Reaction 21
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: AL2O3 => AL2O3(B) # Reaction 22
+    sticking-coefficient: { A: 1.0, b: 0.0, Ea: 0.0 J/mol }
+  - equation: ALO2 + ALO(S) + AL(B) <=> AL2O3(B) + AL(L) # Reaction 23
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: OALO(S) + ALO + AL(B) <=> AL2O3(B) + AL(L) # Reaction 24
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: AL2O2(S) + O + 3 AL(B) <=> AL2O3(B) + 3 AL(L) # Reaction 25
+    rate-constant: { A: 2.29e+13, b: 0.0, Ea: 0.0 J/mol }
+    note: E-R
+  - equation: 2 ALO(S) + O(S) + 3 AL(B) <=> AL2O3(B) + 3 AL(L) # Reaction 26
+    rate-constant: { A: 2.26e+19, b: 0.0, Ea: 0.0 J/mol }
+    note: L-H
+  - equation: 3 O(S) + 2 AL(L) + 5 AL(B) => AL2O3(B) + 5 AL(L) # Reaction 27
+    rate-constant: { A: 1.0e+48, b: 0.0, Ea: 0.0 J/mol }
+  # - equation: AL2O2(S) + O(S) + 4 AL(B) <=> AL2O3(B) + 4 AL(L)
+  #   rate-constant: { A: 2.26e+19, b: 0.0, Ea: 0.0 J/mol }
+  #   note: |-
+  #   This reaction is commented out in the CNF paper but shown in the thesis work.
+  # - equation: OALO(S) + ALO(S) + 2 AL(B) <=> AL2O3(B) + 2 AL(L)
+  #   rate-constant: { A: 2.26e+19, b: 0.0, Ea: 0.0 J/mol }
+  #   note: |-
+  #   This reaction is commented out in the CNF paper but shown in the thesis work.
+  # - equation: AL2O(S) + 2 O(S) + 5 AL(B) <=> AL2O3(B) + 5 AL(L)
+  #   rate-constant: { A: 2.26e+19, b: 0.0, Ea: 0.0 J/mol }
+  #   note: |-
+  #   This reaction is commented out in the CNF paper but shown in the thesis work.
+
+gas-reactions:
+  - equation: AL + O <=> ALO # Reaction 1
+    rate-constant: { A: 1.0e+13, b: 0.0, Ea: 800.0 }
+  # - equation: ALH3 + H <=> ALH2 + H2 # Reaction 2
+  #   rate-constant: { A: 4.75e+09, b: 1.5, Ea: 0.0 }
+  #   note: catoire-swihart
+  # - equation: ALH2 + M <=> ALH + H + M # Reaction 3
+  #   type: three-body
+  #   rate-constant: { A: 1.46e+15, b: 0.0, Ea: 2.3376e+04 }
+  #   note: catoire-swihart
+  # - equation: ALH3 + M <=> ALH + H2 + M # Reaction 4
+  #   type: three-body
+  #   rate-constant: { A: 1.48e+13, b: 0.0, Ea: 3.0756e+04 }
+  #   note: catoire-swihart
+  # - equation: AL + H + M <=> ALH + M # Reaction 5
+  #   type: three-body
+  #   rate-constant: { A: 1.6e+17, b: -0.34, Ea: 0.0 }
+  #   note: catoire-swihart
+  # - equation: ALH + H <=> AL + H2 # Reaction 6
+  #   rate-constant: { A: 1.0e+13, b: 0.0, Ea: 0.0 }
+  #   note: catoire-swihart
+  # - equation: ALH2 + H <=> ALH + H2 # Reaction 7
+  #   rate-constant: { A: 2.0e+13, b: 0.0, Ea: 0.0 }
+  #   note: catoire-swihart
+  # - equation: H2 + M <=> H + H + M # Reaction 8
+  #   type: three-body
+  #   rate-constant: { A: 2.23e+14, b: 0.0, Ea: 4.835e+04 }
+  #   note: see CF paper
+  # - equation: AL + CO2 <=> ALO + CO # Reaction 9
+  #   rate-constant: { A: 1.74e+14, b: 0.0, Ea: 3221.0 }
+  #   note: Garland
+  # - equation: ALO + CO2 <=> ALO2 + CO # Reaction 10
+  #   rate-constant: { A: 1.5e+10, b: 0.0, Ea: -400.0 }
+  #   note: Rogowski
+  - equation: AL + O2 <=> ALO + O # Reaction 11
+    rate-constant: { A: 9.72e+13, b: 0.0, Ea: 80.5 }
+    note: Garland
+  - equation: AL + O + M <=> ALO + M # Reaction 12
+    type: three-body
+    rate-constant: { A: 3.0e+17, b: -1.0, Ea: 0.0 }
+    efficiencies: { O2: 1.1 } # { H2: 2.8, O2: 1.1, H2O: 1.9, CO2: 4.3, CO: 2.1 }
+    note: catoire-swihart (estimated)
+  - equation: ALO + O2 <=> ALO2 + O # Reaction 13
+    rate-constant: { A: 4.62e+14, b: 0.0, Ea: 1.0008e+04 }
+    note: Belyung and Fontijn
+  - equation: O2 + M <=> O + O + M # Reaction 14
+    type: three-body
+    rate-constant: { A: 1.2e+14, b: 0.0, Ea: 5.4244e+04 }
+    note: Jerig
+  # - equation: CO2 <=> CO + O # Reaction 15
+  #   rate-constant: { A: 9.0e+12, b: 0.0, Ea: 6.5274e+04 }
+  #   note: Wagner and Zabel
+  # - equation: CO + O2 <=> CO2 + O # Reaction 16
+  #   rate-constant: { A: 2.53e+12, b: 0.0, Ea: 2.4001e+04 }
+  #   note: Tsang, Hampson, 1986
+  # - equation: AL + H2O <=> H + ALOH # Reaction 17
+  #   rate-constant: { A: 1.14e+12, b: 0.0, Ea: 442.8 }
+  #   note: Mc Lean, Nelson
+  # - equation: AL + H2O <=> ALO + H2 # Reaction 18
+  #   rate-constant: { A: 9.6e+13, b: 0.0, Ea: 2868.6 }
+  #   note: Mc Lean, Nelson
+  # - equation: H + O + M <=> OH + M # Reaction 19
+  #   type: three-body
+  #   rate-constant: { A: 6.2e+16, b: -0.6, Ea: 0.0 }
+  # - equation: H + O2 <=> OH + O # Reaction 20
+  #   rate-constant: { A: 1.59e+17, b: -0.927, Ea: 8492.0 }
+  # - equation: H2 + O <=> OH + H # Reaction 21
+  #   rate-constant: { A: 3.87e+04, b: 2.7, Ea: 3151.5 }
+  # - equation: H2 + OH <=> H2O + H # Reaction 22
+  #   rate-constant: { A: 2.16e+08, b: 1.51, Ea: 1732.1 }
+  # - equation: OH + OH <=> O + H2O # Reaction 23
+  #   rate-constant: { A: 2.0e+08, b: 1.4, Ea: -199.7 }
+  #   note: "2.10E08"
+  # - equation: H + OH + M <=> H2O + M # Reaction 24
+  #   type: three-body
+  #   rate-constant: { A: 8.4e+21, b: -2.0, Ea: 0.0 }
+  #   efficiencies: { O2: 2.6 } #{ H2: 1.9, O2: 2.6, H2O: 9.5, CO: 2.6, CO2: 2.6 }
+  # - equation: H + O2 + M <=> HO2 + M # Reaction 25
+  #   type: three-body
+  #   rate-constant: { A: 7.0e+17, b: -0.8, Ea: 0.0 }
+  # - equation: HO2 + H <=> OH + OH # Reaction 26
+  #   rate-constant: { A: 1.5e+14, b: 0.0, Ea: 505.2 }
+  # - equation: HO2 + H <=> H2 + O2 # Reaction 27
+  #   rate-constant: { A: 2.5e+13, b: 0.0, Ea: 348.8 }
+  # - equation: HO2 + H <=> H2O + O # Reaction 28
+  #   rate-constant: { A: 5.0e+12, b: 0.0, Ea: 709.6 }
+  # - equation: HO2 + O <=> O2 + OH # Reaction 29
+  #   rate-constant: { A: 2.0e+13, b: 0.0, Ea: 0.0 }
+  # - equation: HO2 + OH <=> H2O + O2 # Reaction 30
+  #   rate-constant: { A: 6.02e+13, b: 0.0, Ea: 0.0 }
+  # - equation: HO2 + HO2 <=> H2O2 + O2 # Reaction 31
+  #   rate-constant: { A: 4.2e+14, b: 0.0, Ea: 6030.0 }
+  # - equation: H2O2 + M <=> OH + OH + M # Reaction 32
+  #   type: three-body
+  #   rate-constant: { A: 1.0e+17, b: 0.0, Ea: 2.28541e+04 }
+  #   efficiencies: { H2: 2.9, O2: 1.2, H2O: 18.5, CO2: 2.1, CO: 4.3 }
+  # - equation: H2O2 + H <=> HO2 + H2 # Reaction 33
+  #   rate-constant: { A: 1.7e+12, b: 0.0, Ea: 1888.5 }
+  # - equation: H2O2 + H <=> H2O + OH # Reaction 34
+  #   rate-constant: { A: 1.0e+13, b: 0.0, Ea: 1804.2 }
+  # - equation: H2O2 + O <=> HO2 + OH # Reaction 35
+  #   rate-constant: { A: 2.8e+13, b: 0.0, Ea: 3223.6 }
+  # - equation: H2O2 + OH <=> H2O + HO2 # Reaction 36
+  #   rate-constant: { A: 7.0e+12, b: 0.0, Ea: 721.7 }
+  # - equation: CO + OH <=> CO2 + H # Reaction 37
+  #   rate-constant: { A: 2.45e-03, b: 3.68, Ea: -625.46 }
+  # - equation: CO + HO2 <=> CO2 + OH # Reaction 38
+  #   rate-constant: { A: 1.5e+14, b: 0.0, Ea: 1.18721e+04 }
+  - equation: AL2O3 <=> AL2O2 + O # Reaction 39
+    rate-constant: { A: 3.0e+15, b: 0.0, Ea: 4.91444e+04 }
+    note: catoire-swihart (estimated)
+  - equation: AL2O3 <=> ALO2 + ALO # Reaction 40
+    rate-constant: { A: 3.0e+15, b: 0.0, Ea: 6.39154e+04 }
+    note: catoire-swihart
+  # - equation: AL2O3c <=> AL2O2 + O # Reaction 41
+  #   rate-constant: { A: 3.0e+15, b: 0.0, Ea: 3.68646e+04 }
+  #   note: catoire-swihart
+  # - equation: AL2O3c <=> ALO2 + ALO # Reaction 42
+  #   rate-constant: { A: 3.0e+15, b: 0.0, Ea: 5.16356e+04 }
+  #   note: catoire-swihart
+  - equation: AL2O2 <=> ALO + ALO # Reaction 43
+    rate-constant: { A: 1.0e+15, b: 0.0, Ea: 5.93357e+04 }
+    note: catoire-swihart
+  - equation: AL2O2 <=> AL + ALO2 # Reaction 44
+    rate-constant: { A: 1.0e+15, b: 0.0, Ea: 7.49371e+04 }
+    note: catoire-swihart
+  - equation: AL2O2 <=> AL2O + O # Reaction 45
+    rate-constant: { A: 1.0e+15, b: 0.0, Ea: 5.2466e+04 }
+    note: catoire-swihart
+  - equation: ALO2 <=> ALO + O # Reaction 46
+    rate-constant: { A: 1.0e+15, b: 0.0, Ea: 4.45646e+04 }
+    note: catoire-swihart
+  - equation: AL2O <=> ALO + AL # Reaction 47
+    rate-constant: { A: 1.0e+15, b: 0.0, Ea: 6.70357e+04 }
+    note: catoire-swihart
+  # - equation: ALOH <=> ALO + H # Reaction 48
+  #   rate-constant: { A: 1.0e+15, b: 0.0, Ea: 5.77252e+04 }
+  #   note: catoire-swihart
+  # - equation: ALOH <=> AL + OH # Reaction 49
+  #   rate-constant: { A: 1.0e+15, b: 0.0, Ea: 6.64318e+04 }
+  #   note: catoire-swihart
+  - equation: AL2O3 => AL2O3(L) # Reaction 50
+    rate-constant: { A: 1.0e+15, b: 0.0, Ea: 0.0 }
+  # - equation: AL2O3c => AL2O3(L) # Reaction 51
+  #   rate-constant: { A: 1.0e+15, b: 0.0, Ea: 0.0 }

@@ -1,0 +1,3 @@
+Al_surf_gas.C
+
+EXE = $(FOAM_USER_APPBIN)/Al_surf_gas
