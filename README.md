@@ -53,3 +53,5 @@ and then cd to any folder and run
 ```
 Al_surf_gas
 ```
+Here is the results,
+![0D surface reaction sulimation](https://github.com/ZmengXu/CanteraSurfReactorOpenFOAM/blob/master/CanteraChemkinOpenFOAM.png)
