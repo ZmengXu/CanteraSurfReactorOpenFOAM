@@ -14,7 +14,7 @@ phases:
     #   - species: [AL2O3, AL2O3(L), N]
     #   - nasa_gas.yaml/species: [O2, N2, AL, ALO, ALO2, AL2O, AL2O2, O, Ar] #AL2O3(L)
     kinetics: gas
-    reactions:
+    reactions: # none
       - gas-reactions: declared-species
     state: { T: 2500.0, P: 1 atm, X: "O2:0.21, AR:0.79" }
 
@@ -44,7 +44,11 @@ phases:
     kinetics: surface
     reactions:
       - surface-reactions: declared-species
-    state: { T: 2500.0, P: 1 atm }
+    # state: { T: 2500.0, P: 1 atm }
+    state:
+      T: 2500.0
+      P: 1 atm
+      # coverages: {AL(L): 1.0}
 
 species:
   - name: O

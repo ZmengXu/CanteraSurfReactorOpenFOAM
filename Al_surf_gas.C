@@ -12,7 +12,6 @@
 
 #include "cantera/thermo/SurfPhase.h"
 
-
 #include "cantera/base/Interface.h"
 
 #include "fvCFD.H"
@@ -29,6 +28,8 @@ void simple_demo1
 )
 {
     // First, create mixtures, gas and surf
+    //this is a test
+    
 
     // Create a new 'Solution' object that provides access to ThermoPhase, Kinetics and
     // Transport objects.
@@ -50,7 +51,6 @@ void simple_demo1
     //! Get the surface phase Kinetics object, shared_ptr<InterfaceKinetics>
     auto surfkin = CanteraInterface_->kinetics();
     //auto *temp = surfkin.get();//convert from shared_ptr to *
-    CanteraReactorSurf_.setKinetics(surfkin.get());
 
 
     auto surf = CanteraInterface_->thermo();
@@ -89,6 +89,9 @@ void simple_demo1
     scalarField surfC0(surfSpecie_, 0.0);
     scalarField surfC1(surfSpecie_, 0.0);
 
+    
+
+
     surfC0[0] = 1.0;//AL
     surf->setCoverages(surfC0.begin());
     //CanteraReactorSurf_->setCoverages(surfC0.begin());
@@ -105,7 +108,7 @@ void simple_demo1
     // this will give you a little improvement
     CanteraReactor_.setEnergy(0);
 
-
+    CanteraReactorSurf_.setKinetics(surfkin.get());
     CanteraReactorSurf_.setArea(A);//Surface area m^2
     //CanteraReactorSurf_->setReactor(&CanteraReactor_);//void setReactor(ReactorBase* reactor);//use addSurface instead//void addSurface(ReactorSurface* surf);
 
@@ -131,10 +134,10 @@ void simple_demo1
     for(int timeIndex = 0; timeIndex < 400; timeIndex ++)
     {
         scalar time = timeIndex * 0.00001;
-        while(sim.time()<time)
-        {
-            sim.advance(sim.time() + 1.e-5);
-        }
+        // while(sim.time()<time)
+        // {
+        sim.advance(time);
+        // }
         gas->getMoleFractions(c1.begin());
         surf->getCoverages(surfC1.begin());
         OutputAl << time*1000 << "," << c1[1] << "," << c1[5] << "," << c1[6] << "," << c1[7] << "," << c1[8] << "," << c1[9] << "," << c1[10] << "," << c1[11] << "," << surfC1[3] << nl;
