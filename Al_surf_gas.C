@@ -18,7 +18,7 @@
 
 using namespace Cantera;
 
-void simple_demo1
+double simple_demo1
 (
     const std::string& CanteraMechanismFile_,
     const std::string& PhaseName1_,
@@ -131,7 +131,21 @@ void simple_demo1
     OutputAl << "t" << "," << "O2" << "," << "AL" << "," << "ALO" << "," << "ALO2" << "," << "AL2O" << "," << "AL2O2" << "," << "AL2O3" << "," << "AL2O3(L)" << "," << "O(S)" << nl;
     //OutputAl << "t" << "," << gas->speciesName(1) << "," << gas->speciesName(5) << "," << gas->speciesName(6) << "," << gas->speciesName(7) << "," << gas->speciesName(8) << "," << gas->speciesName(9) << "," << gas->speciesName(10) << "," << gas->speciesName(11) << "," << surf->speciesName(3) << nl;
     
-    for(int timeIndex = 0; timeIndex < 400; timeIndex ++)
+
+    // Calculate reaction heat
+    scalarField con0(gasSpecie_, 0.0);
+    scalarField con1(gasSpecie_, 0.0);
+
+    scalarField surfCon0(surfSpecie_, 0.0);
+    scalarField surfCon1(surfSpecie_, 0.0);
+
+    gas -> getConcentrations(con0.begin());
+    surf-> getConcentrations(surfCon0.begin());
+
+    scalar hreact0 = sum(con0) * V * gas -> enthalpy_mole() + sum(surfCon0) * A * surf -> enthalpy_mole();
+
+
+    for(int timeIndex = 0; timeIndex < 401; timeIndex ++)
     {
         scalar time = timeIndex * 0.00001;
         // while(sim.time()<time)
@@ -142,7 +156,14 @@ void simple_demo1
         surf->getCoverages(surfC1.begin());
         OutputAl << time*1000 << "," << c1[1] << "," << c1[5] << "," << c1[6] << "," << c1[7] << "," << c1[8] << "," << c1[9] << "," << c1[10] << "," << c1[11] << "," << surfC1[3] << nl;
     }
+
+    gas -> getConcentrations(con1.begin());
+    surf-> getConcentrations(surfCon1.begin());
+    scalar hreact1 = sum(con1) * V * gas -> enthalpy_mole() + sum(surfCon1) * A * surf -> enthalpy_mole();
+    Info << "Total Hreact is " << hreact0 - hreact1 << " J." << endl;
+    return (hreact0 - hreact1) ;
 }
+
 
 
 // the main program just calls function simple_demo2 within a 'try' block, and
@@ -156,10 +177,11 @@ int main(int argc, char* argv[])
     const std::string PhaseName4_ = "surfaceAl";
 
     Info << "Demo programe to call Cantera surface reaction functions" << endl;
+    double Hreact = 0.0 ;
     
     try
     {
-        simple_demo1(CanteraMechanismFile_, PhaseName1_, PhaseName2_, PhaseName3_, PhaseName4_);
+        Hreact = simple_demo1(CanteraMechanismFile_, PhaseName1_, PhaseName2_, PhaseName3_, PhaseName4_);
     }
     catch (std::exception& err)
     {
